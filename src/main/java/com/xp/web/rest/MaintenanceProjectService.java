@@ -1,6 +1,8 @@
 package com.xp.web.rest;
 
+import com.xp.domain.MaintenanceProject;
 import com.xp.repository.MaintenanceProjectRepository;
+import com.xp.service.command.AddMaintenanceProjectCommand;
 import com.xp.service.dto.MaintenanceProjectDto;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,10 @@ public class MaintenanceProjectService {
         maintenanceProjectDto.setType("保养");
         maintenanceProjectDto.setLastMaintainDate(LocalDate.of(2020, 12, 1));
         return Arrays.asList(maintenanceProjectDto);
+    }
+
+    public void addProject(AddMaintenanceProjectCommand command) {
+        MaintenanceProject addingProject = command.create();
+        maintenanceProjectRepository.save(addingProject);
     }
 }

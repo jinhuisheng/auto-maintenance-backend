@@ -1,9 +1,8 @@
 package com.xp.web.rest;
 
+import com.xp.service.command.AddMaintenanceProjectCommand;
 import com.xp.service.dto.MaintenanceProjectDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,11 @@ public class MaintenanceProjectResource {
     public List<MaintenanceProjectDto> getProjects() {
         return maintenanceProjectService.getMaintenanceProjects();
     }
+
+    @PostMapping
+    public void addProject(@RequestBody AddMaintenanceProjectCommand command) {
+        maintenanceProjectService.addProject(command);
+    }
+
 
 }

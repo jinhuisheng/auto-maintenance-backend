@@ -120,18 +120,18 @@ task integrationTest(type: Test) {
     reports.html.enabled = false
 }
 
-task cucumberTest(type: Test) {
-    description = "Execute cucumber BDD tests."
-    group = "verification"
-    include "**/*CucumberIT*"
+//task cucumberTest(type: Test) {
+//    description = "Execute cucumber BDD tests."
+//    group = "verification"
+//    include "**/*CucumberIT*"
+//
+//    // uncomment if the tests reports are not generated
+//    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
+//    // ignoreFailures true
+//    reports.html.enabled = false
+//}
 
-    // uncomment if the tests reports are not generated
-    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
-    // ignoreFailures true
-    reports.html.enabled = false
-}
-
-check.dependsOn cucumberTest
+//check.dependsOn cucumberTest
 
 check.dependsOn integrationTest
 task testReport(type: TestReport) {
@@ -144,10 +144,10 @@ task integrationTestReport(type: TestReport) {
     reportOn integrationTest
 }
 
-task cucumberTestReport(type: TestReport) {
-    destinationDir = file("$buildDir/reports/tests")
-    reportOn cucumberTest
-}
+//task cucumberTestReport(type: TestReport) {
+//    destinationDir = file("$buildDir/reports/tests")
+//    reportOn cucumberTest
+//}
 
 if (!project.hasProperty("runList")) {
     project.ext.runList = "main"
