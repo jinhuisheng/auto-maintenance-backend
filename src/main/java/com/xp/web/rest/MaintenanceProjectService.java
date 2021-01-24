@@ -4,28 +4,32 @@ import com.xp.domain.MaintenanceProject;
 import com.xp.repository.MaintenanceProjectRepository;
 import com.xp.service.command.AddMaintenanceProjectCommand;
 import com.xp.service.dto.MaintenanceProjectDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MaintenanceProjectService {
     private MaintenanceProjectRepository maintenanceProjectRepository;
+    private ModelMapper modelMapper;
 
-    public MaintenanceProjectService(MaintenanceProjectRepository maintenanceProjectRepository) {
+    public MaintenanceProjectService(MaintenanceProjectRepository maintenanceProjectRepository,
+                                     ModelMapper modelMapper) {
         this.maintenanceProjectRepository = maintenanceProjectRepository;
+        this.modelMapper = modelMapper;
     }
 
     List<MaintenanceProjectDto> getMaintenanceProjects() {
-        MaintenanceProjectDto maintenanceProjectDto = new MaintenanceProjectDto();
-        maintenanceProjectDto.setName("机油");
-        maintenanceProjectDto.setCycle(3);
-        maintenanceProjectDto.setUnit("day");
-        maintenanceProjectDto.setType("保养");
-        maintenanceProjectDto.setLastMaintainDate(LocalDate.of(2020, 12, 1));
-        return Arrays.asList(maintenanceProjectDto);
+        List<MaintenanceProject> all = maintenanceProjectRepository.findAll();
+        return convert(all);
+    }
+
+    private List<MaintenanceProjectDto> convert(List<MaintenanceProject> all) {
+        return all.stream()
+            .map(project -> modelMapper.map(project, MaintenanceProjectDto.class))
+            .collect(Collectors.toList());
     }
 
     public void addProject(AddMaintenanceProjectCommand command) {
