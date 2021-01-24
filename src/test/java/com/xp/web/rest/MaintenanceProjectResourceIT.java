@@ -33,7 +33,6 @@ public class MaintenanceProjectResourceIT {
     @Autowired
     MaintenanceProjectRepository maintenanceProjectRepository;
 
-
     @Test
     void should_get_my_car_maintenanceProjects_success() throws Exception {
         givenMaintenanceProjects();
@@ -49,12 +48,7 @@ public class MaintenanceProjectResourceIT {
 
     @Test
     void should_add_car_maintenanceProject_success() throws Exception {
-        AddMaintenanceProjectCommand addMaintenanceProject = new AddMaintenanceProjectCommand();
-        addMaintenanceProject.setName("机油");
-        addMaintenanceProject.setType("保养");
-        addMaintenanceProject.setCycle(3);
-        addMaintenanceProject.setUnit("day");
-        addMaintenanceProject.setLastMaintainDate(LocalDate.of(2020, 12, 1));
+        AddMaintenanceProjectCommand addMaintenanceProject = createCommand();
 
         mockMvc.perform(post("/api/maintenance-projects")
             .contentType(MediaType.APPLICATION_JSON)
@@ -69,6 +63,16 @@ public class MaintenanceProjectResourceIT {
         assertThat(savedMaintenanceProject.getType()).isEqualTo(addMaintenanceProject.getType());
         assertThat(savedMaintenanceProject.getUnit()).isEqualTo(addMaintenanceProject.getUnit());
         assertThat(savedMaintenanceProject.getLastMaintainDate()).isEqualTo(addMaintenanceProject.getLastMaintainDate());
+    }
+
+    private AddMaintenanceProjectCommand createCommand() {
+        AddMaintenanceProjectCommand addMaintenanceProject = new AddMaintenanceProjectCommand();
+        addMaintenanceProject.setName("机油");
+        addMaintenanceProject.setType("保养");
+        addMaintenanceProject.setCycle(3);
+        addMaintenanceProject.setUnit("day");
+        addMaintenanceProject.setLastMaintainDate(LocalDate.of(2020, 12, 1));
+        return addMaintenanceProject;
     }
 
     private void givenMaintenanceProjects() {
